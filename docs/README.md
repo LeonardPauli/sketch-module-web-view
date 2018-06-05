@@ -1,3 +1,28 @@
+> FORK: of [skpm/sketch-module-web-view](https://github.com/skpm/sketch-module-web-view)  
+> DIFF: personal changes, eg.:
+> - using `@leonardpauli/cocoascript-class with support-older-jsc` (until PR is merged)
+> - added `didClose` handler (__temporary__ dev flow fix, prevents crash on reload)
+> - added `showCursorPopupBrowserWindow` shorthand (should be separate module, meh)
+> USAGE: npm i @leonardpauli/sketch-module-web-view@1.1.7-lp, then:
+
+```js
+import BrowserWindow from 'sketch-module-web-view'
+export default function (context) {
+  coscript.setShouldKeepAround(true); const val = 1; UI.message(val+' start')
+  showCursorPopupBrowserWindow({
+  	// eg. localhost to webpack dev server during dev, but dist index for prod
+    url: require('../resources/webview.html'),
+    onLoadFinish: ()=> { console.log('UI loaded!') },
+    onNativeLog: s=> { UI.message(s); webContents.executeJavaScript(`fn(${val})`) },
+    // allow session tear down & force tear down start
+    didClose: ()=> { coscript.setShouldKeepAround(false); throw(null) },
+    // size: {x, y}, positionCursorOffset: {x, y}, reuseId: 'some',
+  })
+}
+```
+
+---
+
 # sketch-module-web-view
 
 A Sketch module for creating a complex UI with a webview. The API is mimicking the [BrowserWindow](https://electronjs.org/docs/api/browser-window) API of Electron.
