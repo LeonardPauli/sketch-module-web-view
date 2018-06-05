@@ -6,7 +6,7 @@
 > USAGE: npm i @leonardpauli/sketch-module-web-view@1.1.7-lp, then:
 
 ```js
-import BrowserWindow from 'sketch-module-web-view'
+import {showCursorPopupBrowserWindow} from '@leonardpauli/sketch-module-web-view/lib/lp-utils'
 export default function (context) {
   coscript.setShouldKeepAround(true); const val = 1; UI.message(val+' start')
   showCursorPopupBrowserWindow({
